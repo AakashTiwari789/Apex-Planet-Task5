@@ -32,6 +32,18 @@
             </select>
         </div>
 
+        <div id="loader" class="loader-container">
+            <div class="loader"></div>
+            <p>Loading Products...</p>
+        </div>
+
+        <div id="error-message" class="error-container hidden">
+            <h2>⚠ Failed to load products.</h2>
+            <p>Please check your internet connection and try again.</p>
+
+            <button id="retry-btn">Retry</button>
+        </div>
+        
         <div class="product-showcase" id="product-showcase"></div>
     </div>
     <script src="script.js"></script>

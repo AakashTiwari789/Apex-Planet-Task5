@@ -96,3 +96,74 @@ select {
     color: var(--accent);
     font-weight: bold;
 }
+
+/* Loading Spinner */
+
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 50px 0;
+}
+
+.loader {
+    width: 55px;
+    height: 55px;
+    border: 6px solid #333;
+    border-top: 6px solid var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loader-container p {
+    color: var(--text);
+    font-size: 18px;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Error Message */
+
+.error-container {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.error-container h2 {
+    color: #ff6b6b;
+    margin-bottom: 10px;
+}
+
+.error-container p {
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+#error-message button {
+    background: var(--accent);
+    color: black;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#error-message button:hover {
+    transform: scale(1.05);
+}

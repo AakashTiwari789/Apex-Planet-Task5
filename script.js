@@ -4,10 +4,34 @@ const sortDropdown = document.getElementById("sort-dropdown");
 const filterDropdown = document.getElementById("filter-dropdown");
 const searchInput = document.getElementById("search-input");
 
+const loader = document.getElementById("loader");
+
+const errorMessage = document.getElementById("error-message");
+const retryBtn = document.getElementById("retry-btn");
+
 const fetchProducts = async () => {
-    const res = await fetch("https://fakestoreapi.com/products");
-    allProducts = await res.json();
-    updateUI();
+    loader.classList.remove("hidden");
+    errorMessage.classList.add("hidden");
+    productShow.innerHTML = "";
+
+    try {
+        const res = await fetch("https://fakestoreapi.com/products");
+
+        if (!res.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        allProducts = await res.json();
+
+        updateUI();
+
+    } catch (error) {
+        errorMessage.classList.remove("hidden");
+        console.error(error);
+
+    } finally {
+        loader.classList.add("hidden");
+    }
 };
 
 const updateUI = () => {
@@ -45,6 +69,6 @@ const displayProducts = (products) => {
 sortDropdown.addEventListener("change", updateUI);
 filterDropdown.addEventListener("change", updateUI);
 searchInput.addEventListener("input", updateUI);
+retryBtn.addEventListener("click", fetchProducts);
 
 fetchProducts();
-
