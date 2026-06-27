@@ -28,6 +28,26 @@ h1 {
     margin-bottom: 40px;
 }
 
+.controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+#search-input {
+    padding: 10px 15px;
+    width: 280px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+#search-input:focus {
+    outline: 2px solid var(--accent);
+}
+
 select {
     padding: 10px;
     border-radius: 8px;

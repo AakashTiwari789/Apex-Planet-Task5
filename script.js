@@ -2,6 +2,7 @@ let allProducts = [];
 const productShow = document.getElementById("product-showcase");
 const sortDropdown = document.getElementById("sort-dropdown");
 const filterDropdown = document.getElementById("filter-dropdown");
+const searchInput = document.getElementById("search-input");
 
 const fetchProducts = async () => {
     const res = await fetch("https://fakestoreapi.com/products");
@@ -10,9 +11,16 @@ const fetchProducts = async () => {
 };
 
 const updateUI = () => {
-    let filtered = allProducts.filter(p =>
-        filterDropdown.value === "all" ? true : p.category === filterDropdown.value
-    );
+    let filtered = allProducts.filter(product => {
+        const categoryMatch =
+            filterDropdown.value === "all" ||
+            product.category === filterDropdown.value;
+
+        const searchMatch =
+            product.title.toLowerCase().includes(searchInput.value.toLowerCase());
+
+        return categoryMatch && searchMatch;
+    });
 
     const sortVal = sortDropdown.value;
     if (sortVal === "price-asc") filtered.sort((a, b) => a.price - b.price);
@@ -36,5 +44,7 @@ const displayProducts = (products) => {
 
 sortDropdown.addEventListener("change", updateUI);
 filterDropdown.addEventListener("change", updateUI);
+searchInput.addEventListener("input", updateUI);
 
 fetchProducts();
+

@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Showcase</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Product Showcase</h1>
 
         <div class="controls">
+            <input type="text" id="search-input" placeholder="Search products...">
+
             <select id="filter-dropdown">
                 <option value="all">All Categories</option>
                 <option value="electronics">Electronics</option>
@@ -18,7 +22,7 @@
                 <option value="men's clothing">Men's Clothing</option>
                 <option value="women's clothing">Women's Clothing</option>
             </select>
-            
+
             <select id="sort-dropdown">
                 <option value="">Sort By</option>
                 <option value="price-asc">Price: Low to High</option>
@@ -32,4 +36,5 @@
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
