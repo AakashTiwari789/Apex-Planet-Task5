@@ -10,7 +10,14 @@
 
 <body>
     <div class="container">
-        <h1>Product Showcase</h1>
+        <div class="header">
+            <h1>Product Showcase</h1>
+
+            <div class="cart-icon">
+                🛒 Cart
+                <span id="cart-count">0</span>
+            </div>
+        </div>
 
         <div class="controls">
             <input type="text" id="search-input" placeholder="Search products...">
@@ -43,9 +50,23 @@
 
             <button id="retry-btn">Retry</button>
         </div>
-        
+
         <div class="product-showcase" id="product-showcase"></div>
+
+        <div id="product-modal" class="modal hidden">
+            <div class="modal-content">
+                <span id="close-modal">&times;</span>
+                <img id="modal-image">
+                <h2 id="modal-title"></h2>
+                <p id="modal-description"></p>
+                <p><strong>Category:</strong> <span id="modal-category"></span></p>
+                <p><strong>Rating:</strong> ⭐ <span id="modal-rating"></span></p>
+                <h2 id="modal-price"></h2>
+            </div>
+
+        </div>
     </div>
+    <div id="toast"></div>
     <script src="script.js"></script>
 </body>
 

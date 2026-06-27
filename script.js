@@ -55,20 +55,117 @@ const updateUI = () => {
     displayProducts(filtered);
 };
 
-const displayProducts = (products) => {
-    productShow.innerHTML = products.map(p => `
-        <div class="product-card">
-            <img src="${p.image}" class="product-image" alt="${p.title}">
-            <h3 class="product-title" style="overflow-y:auto">${p.title}</h3>
-            <p class="product-rating">${p.rating.rate} &#11088;</p>
-            <p class="product-price">$${p.price}</p>
-        </div>
-    `).join("");
-};
-
 sortDropdown.addEventListener("change", updateUI);
 filterDropdown.addEventListener("change", updateUI);
 searchInput.addEventListener("input", updateUI);
 retryBtn.addEventListener("click", fetchProducts);
 
+
+// Opening the product details page when a product card is clicked
+const modal = document.getElementById("product-modal");
+const closeModal = document.getElementById("close-modal");
+
+const modalImage = document.getElementById("modal-image");
+const modalTitle = document.getElementById("modal-title");
+const modalDescription = document.getElementById("modal-description");
+const modalCategory = document.getElementById("modal-category");
+const modalRating = document.getElementById("modal-rating");
+const modalPrice = document.getElementById("modal-price");
+
+function openModal(product) {
+    modalImage.src = product.image;
+    modalTitle.textContent = product.title;
+    modalDescription.textContent = product.description;
+    modalCategory.textContent = product.category;
+    modalRating.textContent = product.rating.rate;
+    modalPrice.textContent = "$" + product.price;
+    modal.classList.remove("hidden");
+}
+
+closeModal.addEventListener("click", () => {
+    modal.classList.add("hidden");
+});
+modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        modal.classList.add("hidden");
+    }
+});
+
+const displayProducts = (products) => {
+    productShow.innerHTML = products.map((p, index) => {
+        return `
+            <div class="product-card" data-index="${index}">
+
+                <img
+                    src="${p.image}"
+                    class="product-image loading"
+                    loading="lazy"
+                    alt="${p.title}"
+                    onload="this.classList.remove('loading')"
+                />
+
+                <h3 class="product-title">${p.title}</h3>
+
+                <p>⭐ ${p.rating.rate}</p>
+
+                <p class="product-price">$${p.price}</p>
+
+                <button
+                    class="add-cart-btn"
+                    data-index="${index}">
+                    Add to Cart
+                </button>
+            </div>`;
+    }).join("");
+
+    const cards = document.querySelectorAll(".product-card");
+
+    cards.forEach((card, index) => {
+        card.addEventListener("click", (e) => {
+            if (e.target.classList.contains("add-cart-btn"))
+                return;
+            openModal(products[index]);
+        });
+    });
+
+    document.querySelectorAll(".add-cart-btn").forEach((btn, index) => {
+        btn.addEventListener("click", () => {
+            addToCart(products[index]);
+        });
+    });
+};
+
+// Adding the cart functionality
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const toast = document.getElementById("toast");
+
+const cartCount = document.getElementById("cart-count");
+function updateCartCount() {
+    cartCount.textContent = cart.length;
+}
+
+function addToCart(product) {
+    const exists = cart.find(item => item.id === product.id);
+    if (exists) {
+        showToast("Product already in cart!", "error");
+        return;
+    }
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    showToast("Product added to cart!");
+};
+
+function showToast(message, type = "success") {
+    toast.textContent = message;
+    toast.className = "";
+    toast.classList.add(type);
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+updateCartCount();
 fetchProducts();
